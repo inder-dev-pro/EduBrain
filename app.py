@@ -24,7 +24,7 @@ def get_pdf_text(pdf_docs):
     return text
 
 def get_text_chunks(text):
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=10000, chunk_overlap=1000)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=100)
     chunks = text_splitter.split_text(text)
     return chunks
 
@@ -32,6 +32,7 @@ def get_vector_store(chunks):
     embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
     vector_store = FAISS.from_texts(chunks,embedding=embeddings)
     vector_store.save_local("faiss_index")
+    st.write(f"Total documents in FAISS: {len(vector_store.index_to_docstore_id)}")
 
 def get_qa_chain():
     prompt_template ="""Answer the question as detailed as possible from the given context, make sure to provide all the details and information that is asked in the question.,
@@ -71,6 +72,7 @@ def main():
     st.header("Chatwith PDF using Geminni Pro")
 
     user_question=st.text_input("Enter your question here:")
+
 
     if user_question:
         user_input(user_question)
