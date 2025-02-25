@@ -35,8 +35,8 @@ EduBrain is an **AI-powered Retrieval-Augmented Generation (RAG) application** d
 ### 1️⃣ Clone the Repository
 
 ```bash
- git clone https://github.com/YOUR_GITHUB_USERNAME/EduBrain.git
- cd EduBrain
+ git clone https://github.com/YOUR_GITHUB_USERNAME/PDF-CHATBOT.git
+ cd PDF-CHATBOT
 ```
 
 ### 2️⃣ Install Dependencies
