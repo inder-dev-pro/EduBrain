@@ -36,7 +36,7 @@ def get_vector_store(chunks):
 
 def get_qa_chain():
     prompt_template = """Answer the question as detailed as possible from the given context. Make sure to provide all the details and information requested in the question.
-    If the answer is not available in the context, explicitly state that instead of making assumptions.
+    You can give the answers from your own too according to the reference context.
     
     Context:
     {context}
@@ -46,7 +46,7 @@ def get_qa_chain():
     
     Answer:
     """
-    model = ChatGoogleGenerativeAI(model="gemini-pro", temperature=0.3)
+    model = ChatGoogleGenerativeAI(model="gemini-pro", temperature=0.3, verbose=True)
     prompt = PromptTemplate(template=prompt_template, input_variables=["context", "question"])
     chain = load_qa_chain(llm=model, chain_type="stuff", prompt=prompt)
     return chain
