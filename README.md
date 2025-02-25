@@ -91,7 +91,7 @@ Want to contribute? Follow these steps:
 ## 📞 Contact
 
 If you have any questions or suggestions, feel free to reach out:
-📧 Email: theindersharma@gmail.com](mailto\:theindersharma@gmail.com)\
+📧 [theindersharma@gmail.com]\
 🔗 LinkedIn: [Inder Sharma](https://www.linkedin.com/in/inder-sharma/)
 
 ## 🎯 Let's revolutionize education with AI! 🚀
