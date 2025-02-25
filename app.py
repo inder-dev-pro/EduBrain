@@ -61,11 +61,11 @@ def user_input(user_question):
     st.success(response["output_text"])
 
 def main():
-    st.set_page_config(page_title="PDF Chatbot", page_icon="📚")
-    st.title("📚 Chat with Your PDF Using Gemini Pro")
+    st.set_page_config(page_title="EduBrain", page_icon="📚")
+    st.title("📚 Your Study Companion Using Gemini Pro")
     
     with st.sidebar:
-        st.title("📂 Upload & Process PDF")
+        st.title("📂 Upload & Process Notes(PDF)")
         pdf_docs = st.file_uploader("Upload PDFs", type=["pdf"], accept_multiple_files=True)
         if st.button("Submit & Process"):
             with st.spinner("Processing your PDF..."):
