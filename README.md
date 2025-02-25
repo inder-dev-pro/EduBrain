@@ -56,7 +56,7 @@ GOOGLE_API_KEY=your_api_key_here
 ### 4️⃣ Run the Application
 
 ```bash
-streamlit run main.py
+streamlit run app.py
 ```
 
 ## 📌 Usage
@@ -68,8 +68,8 @@ streamlit run main.py
 
 ## 🚀 Demo & GitHub Repository
 
-🔗 **Live Demo:** [Insert Deployed Link Here]\
-💻 **GitHub Repo:** [Insert GitHub Link Here]
+🔗 **Live Demo:** [https://handypdf.streamlit.app/]\
+💻 **GitHub Repo:** [https://github.com/inder-dev-pro/EduBrain]
 
 ## 🛠️ Future Enhancements
 
@@ -91,8 +91,8 @@ Want to contribute? Follow these steps:
 ## 📞 Contact
 
 If you have any questions or suggestions, feel free to reach out:
-📧 Email: [your\_email@example.com](mailto\:your_email@example.com)\
-🔗 LinkedIn: [Your LinkedIn Profile](https://www.linkedin.com/in/yourprofile/)
+📧 Email: [your\_email@example.com](mailto\:theindersharma@gmail.com)\
+🔗 LinkedIn: [Your LinkedIn Profile](https://www.linkedin.com/in/inder-sharma/)
 
 ## 🎯 Let's revolutionize education with AI! 🚀
 
