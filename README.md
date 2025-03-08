@@ -1,4 +1,4 @@
-# EduBrain - AI-Powered Study Companion
+#EduBrain - AI-Powered Study Companion
 
 ## 📚 Overview
 
