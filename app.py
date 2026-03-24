@@ -1,19 +1,20 @@
 import streamlit as st
 from PyPDF2 import PdfReader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 import os
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
-import google.generativeai as genai
-from langchain.vectorstores import FAISS
-from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain.chains.question_answering import load_qa_chain
-from langchain.prompts import PromptTemplate
+from langchain_community.vectorstores import FAISS
+from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_groq import ChatGroq
+from langchain_classic.chains.question_answering import load_qa_chain
+from langchain_core.prompts import PromptTemplate
 from dotenv import load_dotenv
 
 # Load environment variables
 load_dotenv()
-google_api_key=st.secrets["GOOGLE_API_KEY"]
-genai.configure(api_key=google_api_key) 
+
+
+def get_api_key():
+    return st.secrets.get("GROQ_API_KEY") or os.getenv("GROQ_API_KEY")
 
 def get_pdf_text(pdf_docs):
     text = ""
@@ -28,8 +29,14 @@ def get_text_chunks(text):
     chunks = text_splitter.split_text(text)
     return chunks
 
+
+def get_embeddings():
+    # Local embedding model avoids requiring a second hosted API for vectorization.
+    return HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+
+
 def get_vector_store(chunks):
-    embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+    embeddings = get_embeddings()
     vector_store = FAISS.from_texts(chunks, embedding=embeddings)
     vector_store.save_local("faiss_index")
     st.success(f"✅ Total documents in FAISS: {len(vector_store.index_to_docstore_id)}")
@@ -46,13 +53,13 @@ def get_qa_chain():
     
     Answer:
     """
-    model = ChatGoogleGenerativeAI(model="gemini-pro", temperature=0.3, verbose=True)
+    model = ChatGroq(model="llama-3.3-70b-versatile", temperature=0.3, api_key=get_api_key())
     prompt = PromptTemplate(template=prompt_template, input_variables=["context", "question"])
     chain = load_qa_chain(llm=model, chain_type="stuff", prompt=prompt)
     return chain
 
 def user_input(user_question):
-    embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+    embeddings = get_embeddings()
     new_db = FAISS.load_local("faiss_index", embeddings, allow_dangerous_deserialization=True)
     docs = new_db.similarity_search(user_question, k=5)
     chain = get_qa_chain()
@@ -62,12 +69,21 @@ def user_input(user_question):
 
 def main():
     st.set_page_config(page_title="EduBrain", page_icon="📚")
-    st.title("📚 Your Study Companion Using Gemini Pro")
+    st.title("📚 Your Study Companion Using Groq")
     
     with st.sidebar:
         st.title("📂 Upload & Process Notes(PDF)")
+        groq_api_key = get_api_key()
+        if not groq_api_key:
+            st.warning("⚠️ Add GROQ_API_KEY in .env or Streamlit secrets before processing.")
         pdf_docs = st.file_uploader("Upload PDFs", type=["pdf"], accept_multiple_files=True)
         if st.button("Submit & Process"):
+            if not groq_api_key:
+                st.error("❌ Missing GROQ_API_KEY. Please set it and retry.")
+                return
+            if not pdf_docs:
+                st.warning("⚠️ Please upload at least one PDF.")
+                return
             with st.spinner("Processing your PDF..."):
                 raw_text = get_pdf_text(pdf_docs)
                 text_chunks = get_text_chunks(raw_text)
@@ -78,6 +94,9 @@ def main():
     user_question = st.text_input("Type your question below:")
     if st.button("Get Answer"):
         if user_question.strip():
+            if not get_api_key():
+                st.error("❌ Missing GROQ_API_KEY. Please set it and retry.")
+                return
             user_input(user_question)
         else:
             st.warning("⚠️ Please enter a valid question!")

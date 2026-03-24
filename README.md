@@ -2,20 +2,20 @@
 
 ## 📚 Overview
 
-EduBrain is an **AI-powered Retrieval-Augmented Generation (RAG) application** designed to **enhance study experiences** by converting PDFs and notes into vectorized knowledge and providing **instant answers** using **Gemini Pro**. It also supports **multi-document processing** and **text summarization** to make studying interactive and efficient.
+EduBrain is an **AI-powered Retrieval-Augmented Generation (RAG) application** designed to **enhance study experiences** by converting PDFs and notes into vectorized knowledge and providing **instant answers** using **Groq-hosted LLMs**. It also supports **multi-document processing** and **text summarization** to make studying interactive and efficient.
 
 ## 🚀 Features
 
 - ✅ **Multi-Document Support** – Upload multiple PDFs and notes.
 - ✅ **AI-Powered Q&A** – Ask any question and get context-aware answers.
 - ✅ **Smart Summarization** – Generate concise summaries of documents.
-- ✅ **Gemini Pro LLM** – Provides intelligent, detailed responses.
+- ✅ **Groq LLM** – Provides intelligent, detailed responses with low latency.
 - ✅ **Efficient Search** – Uses FAISS for fast and accurate vector retrieval.
 - ✅ **User-Friendly Interface** – Built with Streamlit for an interactive experience.
 
 ## 🛠️ Tech Stack
 
-- **LLM**: Gemini Pro 🤖
+- **LLM**: Groq (Llama) 🤖
 - **Embeddings & Vector Store**: FAISS + Sentence Transformers 📊
 - **Backend**: Python 🐍
 - **Frontend**: Streamlit ⚡
@@ -27,7 +27,7 @@ EduBrain is an **AI-powered Retrieval-Augmented Generation (RAG) application** d
 1. **Upload Your Notes (PDFs)** 📂
 2. **EduBrain Converts Them into Vectors** 🧩
 3. **Ask Any Study-Related Question** ❓
-4. **Get AI-Generated Answers from Gemini Pro** 💡
+4. **Get AI-Generated Answers from Groq** 💡
 5. **Receive Summarized Notes for Quick Revision** ✨
 
 ## 🔧 Installation & Setup
@@ -47,10 +47,10 @@ pip install -r requirements.txt
 
 ### 3️⃣ Set Up Environment Variables
 
-Create a `.env` file in the root directory and add your Google API Key:
+Create a `.env` file in the root directory and add your Groq API Key:
 
 ```env
-GOOGLE_API_KEY=your_api_key_here
+GROQ_API_KEY=your_api_key_here
 ```
 
 ### 4️⃣ Run the Application
