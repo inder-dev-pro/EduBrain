@@ -1,0 +1,9 @@
+.env
+.git
+.gitignore
+__pycache__/
+*.pyc
+faiss_index/
+README.md
+Dockerfile
+.dockerignore
