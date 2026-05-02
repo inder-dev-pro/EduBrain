@@ -14,7 +14,16 @@ load_dotenv()
 
 
 def get_api_key():
-    return st.secrets.get("GROQ_API_KEY") or os.getenv("GROQ_API_KEY")
+    # Try getting from environment variable first (e.g., set via EC2)
+    api_key = os.getenv("GROQ_API_KEY")
+    if api_key:
+        return api_key
+        
+    # Fallback to Streamlit secrets if available
+    try:
+        return st.secrets.get("GROQ_API_KEY")
+    except Exception:
+        return None
 
 def get_pdf_text(pdf_docs):
     text = ""
