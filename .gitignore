@@ -2,3 +2,8 @@
 __pycache__/
 .devcontainer/
 faiss_index/
+k8s/deployment.yaml
+k8s/faiss-pvc.yaml
+k8s/servicemonitor.yaml
+k8s/service.yaml
+.DS_Store
