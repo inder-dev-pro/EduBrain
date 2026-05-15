@@ -7,3 +7,7 @@ k8s/faiss-pvc.yaml
 k8s/servicemonitor.yaml
 k8s/service.yaml
 .DS_Store
+k8s.pem
+k8s/
+prometheus/
+grafana/

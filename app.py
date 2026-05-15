@@ -6,11 +6,10 @@ import time
 from langchain_community.vectorstores import FAISS
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_groq import ChatGroq
-from langchain.chains.question_answering import load_qa_chain
+from langchain_classic.chains.question_answering import load_qa_chain
 from langchain_core.prompts import PromptTemplate
 from dotenv import load_dotenv
 from prometheus_client import Counter, Histogram, Gauge, REGISTRY
-from metrics_server import start_metrics_server
 
 # Load environment variables
 load_dotenv()
@@ -76,13 +75,6 @@ FAISS_DOCS_COUNT = _get_or_create_metric(
     "Number of document chunks currently stored in the FAISS index",
 )
 
-# ---------------------------------------------------------------------------
-# Start the background Prometheus metrics server (once per process)
-# ---------------------------------------------------------------------------
-
-if "metrics_server_started" not in st.session_state:
-    start_metrics_server(port=9091)
-    st.session_state["metrics_server_started"] = True
 
 
 # ---------------------------------------------------------------------------

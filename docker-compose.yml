@@ -1,0 +1,51 @@
+services:
+  # ── EduBrain App ─────────────────────────────────────────────────────────
+  edubrain:
+    image: indersharma/edubrain-app:v4
+    platform: linux/amd64      # target K8s cluster architecture
+    container_name: edubrain
+    ports:
+      - "8501:8501"   # Streamlit UI
+      - "9091:9091"   # Prometheus metrics
+    env_file:
+      - .env          # picks up GROQ_API_KEY from your local .env
+    volumes:
+      - faiss_data:/app/faiss_index   # persist FAISS index across restarts
+
+  # ── Prometheus ────────────────────────────────────────────────────────────
+  prometheus:
+    image: prom/prometheus:latest
+    platform: linux/amd64
+    container_name: prometheus
+    ports:
+      - "9090:9090"   # Prometheus UI at http://localhost:9090
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.retention.time=7d"
+    depends_on:
+      - edubrain
+
+  # ── Grafana ───────────────────────────────────────────────────────────────
+  grafana:
+    image: grafana/grafana:latest
+    platform: linux/amd64
+    container_name: grafana
+    ports:
+      - "3000:3000"   # Grafana UI at http://localhost:3000
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_DATASOURCES_DEFAULT_URL=http://prometheus:9090
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning  # auto-provisions datasource
+    depends_on:
+      - prometheus
+
+volumes:
+  faiss_data:
+  prometheus_data:
+  grafana_data:

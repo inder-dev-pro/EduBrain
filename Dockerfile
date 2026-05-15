@@ -1,4 +1,4 @@
-FROM python:3.11-slim
+FROM --platform=linux/amd64 python:3.11-slim
 
 # Set the working directory in the container
 WORKDIR /app
@@ -42,5 +42,7 @@ ENV STREAMLIT_SERVER_ADDRESS=0.0.0.0
 HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
     CMD curl -f http://localhost:9091/metrics || exit 1
 
-# Run the Streamlit app
-CMD ["streamlit", "run", "app.py"]
+# entrypoint.py starts the metrics server once, then launches Streamlit.
+# This avoids the "Address already in use" error caused by Streamlit
+# re-executing app.py on every user interaction.
+CMD ["python", "entrypoint.py"]
